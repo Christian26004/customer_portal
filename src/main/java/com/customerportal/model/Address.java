@@ -40,15 +40,15 @@ public class Address {
             this.street = street;
     }
 
-        public void setCity(String city) {
+    public void setCity(String city) {
             this.city = city;
     }
 
-        public void setState(String state) {
+    public void setState(String state) {
             this.state = state;
     }
 
-        public void setzipCode(String zipCode) {
+    public void setzipCode(String zipCode) {
             this.zipCode = zipCode;
     }
 

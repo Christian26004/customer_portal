@@ -1,5 +1,6 @@
-package com.customerportal.customer_portal;
+package com.customerportal.control;
 
+import com.customerportal.Launcher;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -39,8 +40,8 @@ public class LoginController {
     @FXML
 private void handleCreateAccount(ActionEvent event) throws IOException {
     FXMLLoader loader = new FXMLLoader(
-            HelloApplication.class.getResource(
-                    "/com/customerportal/customer_portal/register-view.fxml"
+            Launcher.class.getResource(
+                    "/com/customerportal/view/register-view.fxml"
             )
     );
 

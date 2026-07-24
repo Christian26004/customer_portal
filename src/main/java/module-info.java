@@ -3,6 +3,8 @@ module com.customerportal.customer_portal {
     requires javafx.fxml;
 
 
-    opens com.customerportal.customer_portal to javafx.fxml;
-    exports com.customerportal.customer_portal;
+    opens com.customerportal.control to javafx.fxml;
+    exports com.customerportal.control;
+    exports com.customerportal;
+    opens com.customerportal to javafx.fxml;
 }

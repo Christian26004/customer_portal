@@ -1,5 +1,6 @@
-package com.customerportal.customer_portal;
+package com.customerportal.control;
 
+import com.customerportal.Launcher;
 import com.customerportal.model.Address;
 import com.customerportal.model.Customer;
 import javafx.event.ActionEvent;
@@ -93,7 +94,7 @@ public class RegisterController {
     @FXML
     private void handleBackToLogin(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(
-                HelloApplication.class.getResource("/com/customerportal/customer_portal/login-view.fxml")
+                Launcher.class.getResource("/com/customerportal/view/login-view.fxml")
         );
 
         Scene scene = new Scene(loader.load(), 500, 400);

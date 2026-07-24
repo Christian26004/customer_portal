@@ -10,7 +10,7 @@
 <VBox alignment="CENTER"
       spacing="15.0"
       xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.customerportal.customer_portal.LoginController">
+      fx:controller="com.customerportal.control.LoginController">
 
     <padding>
         <Insets top="30.0"
