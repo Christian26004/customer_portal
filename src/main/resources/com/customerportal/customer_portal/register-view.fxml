@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox alignment="CENTER"
+      spacing="10.0"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.customerportal.customer_portal.RegisterController">
+
+    <padding>
+        <Insets top="25.0"
+                right="40.0"
+                bottom="25.0"
+                left="40.0"/>
+    </padding>
+
+    <Label text="Create Customer Account"
+           style="-fx-font-size: 22px; -fx-font-weight: bold;"/>
+
+    <TextField fx:id="nameField"
+               promptText="Full Name"
+               maxWidth="300.0"/>
+
+    <TextField fx:id="emailField"
+               promptText="Email"
+               maxWidth="300.0"/>
+
+    <PasswordField fx:id="passwordField"
+                   promptText="Password"
+                   maxWidth="300.0"/>
+
+    <PasswordField fx:id="confirmPasswordField"
+                   promptText="Confirm Password"
+                   maxWidth="300.0"/>
+
+    <TextField fx:id="streetField"
+               promptText="Street"
+               maxWidth="300.0"/>
+
+    <TextField fx:id="cityField"
+               promptText="City"
+               maxWidth="300.0"/>
+
+    <TextField fx:id="stateField"
+               promptText="State"
+               maxWidth="300.0"/>
+
+    <TextField fx:id="zipCodeField"
+               promptText="ZIP Code"
+               maxWidth="300.0"/>
+
+    <Label fx:id="messageLabel"
+           wrapText="true"/>
+
+    <Button text="Create Account"
+            onAction="#handleRegister"
+            maxWidth="300.0"/>
+
+    <Button text="Back to Login"
+            onAction="#handleBackToLogin"
+            maxWidth="300.0"/>
+
+</VBox>
