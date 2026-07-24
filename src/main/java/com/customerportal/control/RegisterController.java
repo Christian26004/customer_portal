@@ -54,7 +54,7 @@ public class RegisterController {
     }
 
     @FXML
-    private void handleRegister() {
+    private void handleRegister(ActionEvent event) throws IOException {
         String name = nameField.getText();
         String email = emailField.getText();
         String password = passwordField.getText();
@@ -96,8 +96,26 @@ public class RegisterController {
                 "Account created for " + customer.getName() + "."
         );
 
-        System.out.println("Registered: " + customer.getEmail());
+        System.out.println("Name: " + customer.getName());
+        System.out.println("Password: " + customer.getPassword());
+        System.out.println("Email: " + customer.getEmail());
         System.out.println("Address: " + address.getStreet());
+        System.out.println("City: " + address.getCity());
+        System.out.println("State: " + address.getState());
+        System.out.println("Zip Code: " + address.getZipCode());
+
+        FXMLLoader loader = new FXMLLoader(
+                Launcher.class.getResource("/com/customerportal/view/home-view.fxml")
+        );
+
+        Scene scene = new Scene(loader.load(), 500, 400);
+
+        Stage stage = (Stage) ((Node) event.getSource())
+                .getScene()
+                .getWindow();
+
+        stage.setScene(scene);
+        stage.setTitle("Home");
     }
 
     @FXML

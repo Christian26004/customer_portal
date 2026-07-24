@@ -25,7 +25,7 @@ public class LoginController {
     private Label messageLabel;
 
     @FXML
-    private void handleLogin() {
+    private void handleLogin(ActionEvent event) throws IOException {
         String email = emailField.getText();
         String password = passwordField.getText();
 
@@ -34,7 +34,20 @@ public class LoginController {
             return;
         }
 
-        messageLabel.setText("Login button works.");
+        FXMLLoader loader = new FXMLLoader(
+                Launcher.class.getResource(
+                        "/com/customerportal/view/home-view.fxml"
+                )
+        );
+
+        Scene scene = new Scene(loader.load(), 550, 650);
+
+        Stage stage = (Stage) ((Node) event.getSource())
+                .getScene()
+                .getWindow();
+
+        stage.setScene(scene);
+        stage.setTitle("Home");
     }
 
     @FXML
