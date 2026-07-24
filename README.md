@@ -14,3 +14,4 @@ and integrated checkout options.
 to console
 - [ ] Set qualifications for password information
 - [x] Make state option a drop-down menu for American states
+- [ ] Separate account creation from address information
