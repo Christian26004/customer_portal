@@ -3,8 +3,6 @@ package com.customerportal.control;
 import com.customerportal.Launcher;
 import com.customerportal.model.Address;
 import com.customerportal.model.CustomerManager;
-import com.customerportal.model.Customer;
-import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
