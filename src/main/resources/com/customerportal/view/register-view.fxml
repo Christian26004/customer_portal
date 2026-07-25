@@ -1,68 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.PasswordField?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<VBox alignment="CENTER"
-      spacing="10.0"
-      xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.customerportal.control.RegisterController">
+<VBox alignment="CENTER" spacing="10.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.customerportal.control.RegisterController">
 
     <padding>
-        <Insets top="25.0"
-                right="40.0"
-                bottom="25.0"
-                left="40.0"/>
+        <Insets bottom="25.0" left="40.0" right="40.0" top="25.0" />
     </padding>
 
-    <Label text="Create Customer Account"
-           style="-fx-font-size: 22px; -fx-font-weight: bold;"/>
+    <Label style="-fx-font-size: 22px; -fx-font-weight: bold;" text="Create Customer Account" />
+   <Label text="Account Information" />
 
-    <TextField fx:id="nameField"
-               promptText="Full Name"
-               maxWidth="300.0"/>
+    <TextField fx:id="nameField" maxWidth="300.0" promptText="Full Name *" />
 
-    <TextField fx:id="emailField"
-               promptText="Email"
-               maxWidth="300.0"/>
+    <TextField fx:id="emailField" maxWidth="300.0" promptText="Email *" />
 
-    <PasswordField fx:id="passwordField"
-                   promptText="Password"
-                   maxWidth="300.0"/>
+    <PasswordField fx:id="passwordField" maxWidth="300.0" promptText="Password *" />
 
-    <PasswordField fx:id="confirmPasswordField"
-                   promptText="Confirm Password"
-                   maxWidth="300.0"/>
+    <PasswordField fx:id="confirmPasswordField" maxWidth="300.0" promptText="Confirm Password *" />
+   <Label layoutX="147.0" layoutY="73.0" text="Address Information" />
 
-    <TextField fx:id="streetField"
-               promptText="Street"
-               maxWidth="300.0"/>
+    <TextField fx:id="streetField" maxWidth="300.0" promptText="Street" />
 
-    <TextField fx:id="cityField"
-               promptText="City"
-               maxWidth="300.0"/>
+    <TextField fx:id="cityField" maxWidth="300.0" promptText="City" />
 
-    <TextField fx:id="stateField"
-               promptText="State"
-               maxWidth="300.0"/>
+    <ComboBox fx:id="stateBox" editable="true" maxWidth="300.0" promptText="State" />
 
-    <TextField fx:id="zipCodeField"
-               promptText="ZIP Code"
-               maxWidth="300.0"/>
+    <TextField fx:id="zipCodeField" maxWidth="300.0" promptText="ZIP Code" />
 
-    <Label fx:id="messageLabel"
-           wrapText="true"/>
+    <Label fx:id="messageLabel" wrapText="true" />
 
-    <Button text="Create Account"
-            onAction="#handleRegister"
-            maxWidth="300.0"/>
+    <Button maxWidth="300.0" onAction="#handleRegister" text="Create Account" />
 
-    <Button text="Back to Login"
-            onAction="#handleBackToLogin"
-            maxWidth="300.0"/>
+    <Button maxWidth="300.0" onAction="#handleBackToLogin" text="Back to Login" />
 
 </VBox>

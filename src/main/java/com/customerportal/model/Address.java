@@ -3,7 +3,7 @@ package com.customerportal.model;
 public class Address {
 
     private int id;
-    private int addressId;
+    private final int addressId;
     private String street;
     private String city;
     private String state;

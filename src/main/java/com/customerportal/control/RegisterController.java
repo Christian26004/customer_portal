@@ -3,11 +3,16 @@ package com.customerportal.control;
 import com.customerportal.Launcher;
 import com.customerportal.model.Address;
 import com.customerportal.model.CustomerManager;
+import com.customerportal.model.Customer;
+import javafx.beans.Observable;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -36,7 +41,7 @@ public class RegisterController {
     private TextField cityField;
 
     @FXML
-    private TextField stateField;
+    private ComboBox<String> stateBox;
 
     @FXML
     private TextField zipCodeField;
@@ -45,15 +50,19 @@ public class RegisterController {
     private Label messageLabel;
 
     @FXML
-    private void handleRegister() {
+    public void initialize() {
+        stateBox.setItems(getStateList());
+    }
 
+    @FXML
+    private void handleRegister(ActionEvent event) throws IOException {
         String name = nameField.getText().trim();
         String email = emailField.getText().trim();
         String password = passwordField.getText();
         String confirmation = confirmPasswordField.getText();
         String street = streetField.getText().trim();
         String city = cityField.getText().trim();
-        String state = stateField.getText().trim();
+        String state = stateBox.getValue().trim();
         String zipCode = zipCodeField.getText().trim();
 
         if (name.isBlank()
@@ -116,5 +125,20 @@ public class RegisterController {
         stage.setScene(scene);
         stage.setTitle("Customer Portal Login");
         stage.show();
+    }
+
+    private ObservableList<String> getStateList() {
+        return FXCollections.observableArrayList(
+                "Alabama", "Alaska", "Arizona", "Arkansas", "California",
+                "Colorado", "Connecticut", "Delaware", "Florida", "Georgia",
+                "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa",
+                "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland",
+                "Massachusetts", "Michigan", "Minnesota", "Mississippi", "Missouri",
+                "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey",
+                "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio",
+                "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina",
+                "South Dakota", "Tennessee", "Texas", "Utah", "Vermont",
+                "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"
+        );
     }
 }
