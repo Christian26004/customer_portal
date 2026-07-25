@@ -2,7 +2,7 @@ package com.customerportal.control;
 
 import com.customerportal.Launcher;
 import com.customerportal.model.Address;
-import com.customerportal.model.Customer;
+import com.customerportal.model.CustomerManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -46,14 +46,15 @@ public class RegisterController {
 
     @FXML
     private void handleRegister() {
-        String name = nameField.getText();
-        String email = emailField.getText();
+
+        String name = nameField.getText().trim();
+        String email = emailField.getText().trim();
         String password = passwordField.getText();
         String confirmation = confirmPasswordField.getText();
-        String street = streetField.getText();
-        String city = cityField.getText();
-        String state = stateField.getText();
-        String zipCode = zipCodeField.getText();
+        String street = streetField.getText().trim();
+        String city = cityField.getText().trim();
+        String state = stateField.getText().trim();
+        String zipCode = zipCodeField.getText().trim();
 
         if (name.isBlank()
                 || email.isBlank()
@@ -73,8 +74,6 @@ public class RegisterController {
             return;
         }
 
-        Customer customer = new Customer(name, email, password);
-
         Address address = new Address(
                 0,
                 street,
@@ -83,27 +82,39 @@ public class RegisterController {
                 zipCode
         );
 
-        messageLabel.setText(
-                "Account created for " + customer.getName() + "."
+        boolean registered = CustomerManager.registerCustomer(
+                name,
+                email,
+                password,
+                address
         );
 
-        System.out.println("Registered: " + customer.getEmail());
+        if (!registered) {
+            messageLabel.setText("An account with that email already exists.");
+            return;
+        }
+
+        messageLabel.setText("Account created successfully. Return to login.");
+
+        System.out.println("Registered: " + email);
+        System.out.println("Customers stored: " + CustomerManager.getCustomers().size());
         System.out.println("Address: " + address.getStreet());
     }
 
     @FXML
     private void handleBackToLogin(ActionEvent event) throws IOException {
+
         FXMLLoader loader = new FXMLLoader(
-                Launcher.class.getResource("/com/customerportal/view/login-view.fxml")
+                Launcher.class.getResource(
+                        "/com/customerportal/view/login-view.fxml"
+                )
         );
 
-        Scene scene = new Scene(loader.load(), 500, 400);
+        Scene scene = new Scene(loader.load(), 550, 400);
 
-        Stage stage = (Stage) ((Node) event.getSource())
-                .getScene()
-                .getWindow();
-
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(scene);
         stage.setTitle("Customer Portal Login");
+        stage.show();
     }
 }

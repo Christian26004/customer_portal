@@ -2,6 +2,7 @@ package com.customerportal.model;
 
 public class Address {
 
+    private int id;
     private int addressId;
     private String street;
     private String city;
@@ -28,11 +29,11 @@ public class Address {
         return city;
     }
 
-    public String getstate() {
+    public String getState() {
         return state;
     }
 
-    public String getzipCode() {
+    public String getZipCode() {
         return zipCode;
     }
 
@@ -48,7 +49,7 @@ public class Address {
             this.state = state;
     }
 
-    public void setzipCode(String zipCode) {
+    public void setZipCode(String zipCode) {
             this.zipCode = zipCode;
     }
 

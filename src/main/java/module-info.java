@@ -4,7 +4,9 @@ module com.customerportal.customer_portal {
 
 
     opens com.customerportal.control to javafx.fxml;
-    exports com.customerportal.control;
-    exports com.customerportal;
     opens com.customerportal to javafx.fxml;
+
+    exports com.customerportal;
+    exports com.customerportal.control;
+    exports com.customerportal.model;
 }

@@ -1,32 +1,33 @@
 package com.customerportal.control;
 
 import com.customerportal.Launcher;
+import com.customerportal.model.Customer;
+import com.customerportal.model.CustomerManager;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 
 public class LoginController {
-    
-    @FXML //email
+
+    @FXML
     private TextField emailField;
 
-    @FXML //password
+    @FXML
     private PasswordField passwordField;
 
-    @FXML // message
+    @FXML
     private Label messageLabel;
 
     @FXML
     private void handleLogin() {
-        String email = emailField.getText();
+
+        String email = emailField.getText().trim();
         String password = passwordField.getText();
 
         if (email.isBlank() || password.isBlank()) {
@@ -34,24 +35,49 @@ public class LoginController {
             return;
         }
 
-        messageLabel.setText("Login button works.");
+        Customer customer = CustomerManager.loginCustomer(email, password);
+
+        if (customer == null) {
+            messageLabel.setText("Incorrect email or password.");
+            return;
+        }
+
+        try {
+
+            FXMLLoader loader = new FXMLLoader(
+                    Launcher.class.getResource(
+                            "/com/customerportal/view/profile-view.fxml")
+            );
+
+            Scene scene = new Scene(loader.load(), 500, 450);
+
+            ProfileController controller = loader.getController();
+            controller.setCustomer(customer);
+
+            Stage stage = (Stage) emailField.getScene().getWindow();
+            stage.setScene(scene);
+            stage.setTitle("Customer Profile");
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            messageLabel.setText("Unable to open profile page.");
+        }
     }
 
     @FXML
-private void handleCreateAccount(ActionEvent event) throws IOException {
-    FXMLLoader loader = new FXMLLoader(
-            Launcher.class.getResource(
-                    "/com/customerportal/view/register-view.fxml"
-            )
-    );
+    private void handleCreateAccount() throws IOException {
 
-    Scene scene = new Scene(loader.load(), 550, 650);
+        FXMLLoader loader = new FXMLLoader(
+                Launcher.class.getResource(
+                        "/com/customerportal/view/register-view.fxml")
+        );
 
-    Stage stage = (Stage) ((Node) event.getSource())
-            .getScene()
-            .getWindow();
+        Scene scene = new Scene(loader.load(), 550, 650);
 
-    stage.setScene(scene);
-    stage.setTitle("Create Customer Account");
-}
+        Stage stage = (Stage) emailField.getScene().getWindow();
+        stage.setScene(scene);
+        stage.setTitle("Create Customer Account");
+        stage.show();
+    }
 }
