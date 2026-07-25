@@ -9,4 +9,7 @@ module com.customerportal.customer_portal {
     exports com.customerportal;
     exports com.customerportal.control;
     exports com.customerportal.model;
+    requires java.sql;
+    requires org.xerial.sqlitejdbc;
+    requires java.management;
 }

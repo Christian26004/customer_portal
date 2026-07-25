@@ -60,19 +60,15 @@ public class RegisterController {
         String confirmation = confirmPasswordField.getText();
         String street = streetField.getText().trim();
         String city = cityField.getText().trim();
-        String state = stateBox.getValue().trim();
+        String state = stateBox.getValue() == null ? "" : stateBox.getValue().trim();
         String zipCode = zipCodeField.getText().trim();
 
         if (name.isBlank()
                 || email.isBlank()
                 || password.isBlank()
-                || confirmation.isBlank()
-                || street.isBlank()
-                || city.isBlank()
-                || state.isBlank()
-                || zipCode.isBlank()) {
+                || confirmation.isBlank()) {
 
-            messageLabel.setText("Please complete every field.");
+            messageLabel.setText("Name, email, password, and confirmation are required.");
             return;
         }
 
@@ -81,13 +77,7 @@ public class RegisterController {
             return;
         }
 
-        Address address = new Address(
-                0,
-                street,
-                city,
-                state,
-                zipCode
-        );
+        Address address = createOptionalAddress(street, city, state, zipCode);
 
         boolean registered = CustomerManager.registerCustomer(
                 name,
@@ -105,7 +95,20 @@ public class RegisterController {
 
         System.out.println("Registered: " + email);
         System.out.println("Customers stored: " + CustomerManager.getCustomers().size());
-        System.out.println("Address: " + address.getStreet());
+        if (address != null) {
+            System.out.println("Address: " + address.getStreet());
+        }
+    }
+
+    private Address createOptionalAddress(String street, String city, String state, String zipCode) {
+        if (street.isBlank() && city.isBlank() && state.isBlank() && zipCode.isBlank()) {
+            return null;
+        }
+        return new Address(0, emptyToNull(street), emptyToNull(city), emptyToNull(state), emptyToNull(zipCode));
+    }
+
+    private String emptyToNull(String value) {
+        return value.isBlank() ? null : value;
     }
 
     @FXML

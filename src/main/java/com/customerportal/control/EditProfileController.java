@@ -70,16 +70,15 @@ public class EditProfileController {
         String state = stateField.getText().trim();
         String zipCode = zipCodeField.getText().trim();
 
-        if (name.isBlank()
-                || email.isBlank()
-                || street.isBlank()
-                || city.isBlank()
-                || state.isBlank()
-                || zipCode.isBlank()) {
+        if (name.isBlank() || email.isBlank()) {
 
             messageLabel.setText("Please complete every required field.");
             return;
         }
+
+        Address updatedAddress = street.isBlank() && city.isBlank() && state.isBlank() && zipCode.isBlank()
+                ? null
+                : new Address(0, emptyToNull(street), emptyToNull(city), emptyToNull(state), emptyToNull(zipCode));
 
         boolean emailChanged =
                 !customer.getEmail().equalsIgnoreCase(email);
@@ -98,23 +97,11 @@ public class EditProfileController {
             customer.setPassword(newPassword);
         }
 
-        Address address = customer.getAddress();
+        customer.setAddress(updatedAddress);
 
-        if (address == null) {
-            address = new Address(
-                    0,
-                    street,
-                    city,
-                    state,
-                    zipCode
-            );
-
-            customer.setAddress(address);
-        } else {
-            address.setStreet(street);
-            address.setCity(city);
-            address.setState(state);
-            address.setZipCode(zipCode);
+        if (!CustomerManager.updateCustomer(customer)) {
+            messageLabel.setText("Could not save your changes.");
+            return;
         }
 
         try {
@@ -123,6 +110,10 @@ public class EditProfileController {
             exception.printStackTrace();
             messageLabel.setText("Could not return to profile.");
         }
+    }
+
+    private String emptyToNull(String value) {
+        return value.isBlank() ? null : value;
     }
 
     @FXML
