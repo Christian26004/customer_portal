@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane prefWidth="760.0" prefHeight="620.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.customerportal.control.CartController">
+
+    <top>
+        <VBox spacing="10.0">
+            <padding>
+                <Insets bottom="10.0" left="20.0" right="20.0" top="20.0" />
+            </padding>
+
+            <Label style="-fx-font-size: 22px; -fx-font-weight: bold;" text="Shopping Cart" />
+
+            <HBox alignment="CENTER_LEFT" spacing="10.0">
+                <Label text="Add product:" />
+                <ComboBox fx:id="productComboBox" prefWidth="240.0" />
+                <Spinner fx:id="addQuantitySpinner" prefWidth="80.0" />
+                <Button onAction="#handleAddToCart" text="Add to Cart" />
+            </HBox>
+        </VBox>
+    </top>
+
+    <center>
+        <TableView fx:id="cartTable">
+            <columns>
+                <TableColumn fx:id="productColumn" prefWidth="220.0" text="Product" />
+                <TableColumn fx:id="priceColumn" prefWidth="90.0" text="Price" />
+                <TableColumn fx:id="quantityColumn" prefWidth="170.0" text="Quantity" />
+                <TableColumn fx:id="subtotalColumn" prefWidth="90.0" text="Subtotal" />
+                <TableColumn fx:id="removeColumn" prefWidth="90.0" text="" />
+            </columns>
+            <BorderPane.margin>
+                <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+            </BorderPane.margin>
+        </TableView>
+    </center>
+
+    <bottom>
+        <VBox spacing="10.0">
+            <padding>
+                <Insets bottom="20.0" left="20.0" right="20.0" top="10.0" />
+            </padding>
+
+            <HBox alignment="CENTER_LEFT" spacing="10.0">
+                <Label text="Discount code:" />
+                <TextField fx:id="discountCodeField" maxWidth="160.0" promptText="e.g. SAVE10" />
+                <Button onAction="#handleApplyDiscount" text="Apply" />
+
+                <Label text="Delivery:" />
+                <ComboBox fx:id="deliveryComboBox" prefWidth="260.0" />
+            </HBox>
+
+            <GridPane hgap="12.0" vgap="4.0">
+                <columnConstraints>
+                    <ColumnConstraints minWidth="100.0" />
+                    <ColumnConstraints minWidth="100.0" />
+                </columnConstraints>
+
+                <Label text="Subtotal:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                <Label fx:id="subtotalLabel" text="\$0.00" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+
+                <Label text="Discount:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                <Label fx:id="discountLabel" text="-\$0.00" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+                <Label text="Tax (8.25%):" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                <Label fx:id="taxLabel" text="\$0.00" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
+                <Label text="Delivery Fee:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                <Label fx:id="deliveryFeeLabel" text="\$0.00" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+
+                <Label style="-fx-font-weight: bold;" text="Total:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+                <Label fx:id="totalLabel" style="-fx-font-weight: bold;" text="\$0.00" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            </GridPane>
+
+            <Label fx:id="messageLabel" wrapText="true" />
+
+            <HBox spacing="10.0">
+                <Button maxWidth="1.7976931348623157E308" onAction="#handleBackToProfile" text="Back to Profile" HBox.hgrow="ALWAYS" />
+                <Button maxWidth="1.7976931348623157E308" onAction="#handlePlaceOrder" text="Place Order" HBox.hgrow="ALWAYS" />
+            </HBox>
+        </VBox>
+    </bottom>
+
+</BorderPane>
