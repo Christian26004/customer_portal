@@ -36,7 +36,7 @@ public class Order {
         return orderDate;
     }
 
-    public double gettotal() {
+    public double getTotal() {
         return total;
     }
 

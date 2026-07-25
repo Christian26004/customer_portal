@@ -87,6 +87,35 @@ public class ProfileController {
         }
     }
 
+   @FXML
+private void handleOrderHistory(ActionEvent event) {
+    try {
+        FXMLLoader loader = new FXMLLoader(
+                Launcher.class.getResource(
+                        "/com/customerportal/view/order-history-view.fxml"
+                )
+        );
+
+        Scene scene = new Scene(loader.load(), 600, 500);
+
+        OrderHistoryController controller = loader.getController();
+        controller.setCustomer(customer);
+
+        Stage stage = (Stage) ((Node) event.getSource())
+                .getScene()
+                .getWindow();
+
+        stage.setScene(scene);
+        stage.setTitle("Order History");
+        stage.show();
+
+    } catch (IOException exception) {
+        exception.printStackTrace();
+        messageLabel.setText("Could not open order history.");
+    }
+}
+
+
     @FXML
     private void handleLogout(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(
