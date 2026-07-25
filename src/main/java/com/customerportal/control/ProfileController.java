@@ -41,21 +41,22 @@ public class ProfileController {
         Address address = customer.getAddress();
 
         if (address != null) {
-            streetLabel.setText(
-                    "Street: " + address.getStreet()
-            );
-
+            streetLabel.setText("Street: " + valueOrEmpty(address.getStreet()));
             cityStateZipLabel.setText(
-                    address.getCity()
+                    valueOrEmpty(address.getCity())
                             + ", "
-                            + address.getState()
+                            + valueOrEmpty(address.getState())
                             + " "
-                            + address.getZipCode()
+                            + valueOrEmpty(address.getZipCode())
             );
         } else {
             streetLabel.setText("No address saved.");
             cityStateZipLabel.setText("");
         }
+    }
+
+    private String valueOrEmpty(String value) {
+        return value == null ? "" : value;
     }
 
     @FXML
