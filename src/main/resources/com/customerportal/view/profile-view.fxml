@@ -1,59 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<VBox alignment="CENTER"
-      spacing="14.0"
-      xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.customerportal.control.ProfileController">
+<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17.0.12" fx:controller="com.customerportal.control.ProfileController">
 
     <padding>
-        <Insets top="30.0"
-                right="40.0"
-                bottom="30.0"
-                left="40.0"/>
+        <Insets bottom="30.0" left="40.0" right="40.0" top="30.0" />
     </padding>
 
-    <Label text="Customer Profile"
-           style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+    <Label style="-fx-font-size: 26px; -fx-font-weight: bold;" text="Customer Profile" />
 
-    <Label fx:id="nameLabel"
-           text="Name:"/>
+    <HBox alignment="TOP_CENTER" maxWidth="650.0" prefWidth="650.0" spacing="50.0">
+        <VBox prefHeight="217.0" prefWidth="178.0" spacing="14.0">
+            <Label style="-fx-font-size: 19px; -fx-font-weight: bold;" text="Profile Information" />
+            <Label fx:id="nameLabel" text="Name:" />
+            <Label fx:id="emailLabel" text="Email:" />
 
-    <Label fx:id="emailLabel"
-           text="Email:"/>
+            <Label style="-fx-font-size: 19px; -fx-font-weight: bold;" text="Address" />
+            <Label fx:id="streetLabel" text="Street:" />
+            <Label fx:id="cityStateZipLabel" text="City, State ZIP" />
 
-    <Label text="Address"
-           style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+            <Label fx:id="messageLabel" maxWidth="350.0" wrapText="true" />
+        </VBox>
 
-    <Label fx:id="streetLabel"
-           text="Street:"/>
-
-    <Label fx:id="cityStateZipLabel"
-           text="City, State ZIP"/>
-
-    <Label fx:id="messageLabel"
-           wrapText="true"
-           maxWidth="300.0"/>
-
-    <Button text="Edit Profile"
-            onAction="#handleEditProfile"
-            maxWidth="300.0"/>
-
-   <Button text="Shop Products"
-            onAction="#handleOpenCart"
-            maxWidth="300.0"/>
-
-    <Button text="Order History"
-            onAction="#handleOrderHistory"
-            maxWidth="300.0"/>
-
-    <Button text="Log Out"
-            onAction="#handleLogout"
-            maxWidth="300.0"/>
+        <VBox alignment="TOP_CENTER" prefWidth="220.0" spacing="12.0">
+            <Label style="-fx-font-size: 19px; -fx-font-weight: bold;" text="Actions" />
+            <Button maxWidth="1.7976931348623157E308" onAction="#handleEditProfile" text="Edit Profile" />
+            <Button maxWidth="1.7976931348623157E308" onAction="#handleOpenCart" text="Shop Products" />
+            <Button maxWidth="1.7976931348623157E308" onAction="#handleOrderHistory" text="Order History" />
+            <Button maxWidth="1.7976931348623157E308" onAction="#handleLogout" text="Log Out" />
+        </VBox>
+    </HBox>
 
 
 

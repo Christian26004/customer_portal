@@ -34,6 +34,27 @@
                    promptText="New Password (leave blank to keep current)"
                    maxWidth="320.0"/>
 
+    <VBox fx:id="passwordRequirementsBox"
+          maxWidth="320.0"
+          spacing="2.0"
+          visible="false"
+          managed="false">
+        <Label fx:id="numberRequirementLabel" />
+        <Label fx:id="uppercaseRequirementLabel" />
+        <Label fx:id="lowercaseRequirementLabel" />
+        <Label fx:id="lengthRequirementLabel" />
+    </VBox>
+
+    <PasswordField fx:id="confirmPasswordField"
+                   promptText="Confirm New Password"
+                   maxWidth="320.0"/>
+
+    <Label fx:id="passwordMatchLabel"
+           maxWidth="320.0"
+           wrapText="true"
+           visible="false"
+           managed="false"/>
+
     <TextField fx:id="streetField"
                promptText="Street"
                maxWidth="320.0"/>

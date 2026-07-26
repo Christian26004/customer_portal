@@ -5,13 +5,10 @@ import com.customerportal.model.Customer;
 import com.customerportal.model.CustomerManager;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -53,15 +50,13 @@ public class LoginController {
                             "/com/customerportal/view/profile-view.fxml")
             );
 
-            Scene scene = new Scene(loader.load(), 500, 450);
+            Scene scene = Launcher.createScene(loader);
 
             ProfileController controller = loader.getController();
             controller.setCustomer(customer);
 
             Stage stage = (Stage) emailField.getScene().getWindow();
-            stage.setScene(scene);
-            stage.setTitle("Customer Profile");
-            stage.show();
+            Launcher.showScene(stage, scene, "Customer Profile");
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -77,11 +72,9 @@ public class LoginController {
                         "/com/customerportal/view/register-view.fxml")
         );
 
-        Scene scene = new Scene(loader.load(), 550, 650);
+        Scene scene = Launcher.createScene(loader);
 
         Stage stage = (Stage) emailField.getScene().getWindow();
-        stage.setScene(scene);
-        stage.setTitle("Create Customer Account");
-        stage.show();
+        Launcher.showScene(stage, scene, "Create Customer Account");
     }
 }

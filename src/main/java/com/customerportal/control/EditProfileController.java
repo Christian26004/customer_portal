@@ -1,20 +1,16 @@
 package com.customerportal.control;
 
-import com.customerportal.Launcher;
 import com.customerportal.model.Address;
 import com.customerportal.model.Customer;
 import com.customerportal.model.CustomerManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.Node;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
-import java.io.IOException;
 
 public class EditProfileController {
 
@@ -26,6 +22,27 @@ public class EditProfileController {
 
     @FXML
     private PasswordField passwordField;
+
+    @FXML
+    private PasswordField confirmPasswordField;
+
+    @FXML
+    private VBox passwordRequirementsBox;
+
+    @FXML
+    private Label numberRequirementLabel;
+
+    @FXML
+    private Label uppercaseRequirementLabel;
+
+    @FXML
+    private Label lowercaseRequirementLabel;
+
+    @FXML
+    private Label lengthRequirementLabel;
+
+    @FXML
+    private Label passwordMatchLabel;
 
     @FXML
     private TextField streetField;
@@ -44,11 +61,39 @@ public class EditProfileController {
 
     private Customer customer;
 
+    @FXML
+    private void initialize() {
+        passwordField.textProperty().addListener((observable, oldValue, newValue) -> {
+            updatePasswordRequirements(newValue);
+            updatePasswordMatch();
+        });
+        confirmPasswordField.textProperty().addListener((observable, oldValue, newValue) ->
+                updatePasswordMatch());
+
+        passwordField.focusedProperty().addListener((observable, oldValue, focused) -> {
+            passwordRequirementsBox.setVisible(focused);
+            passwordRequirementsBox.setManaged(focused);
+            if (focused) {
+                updatePasswordRequirements(passwordField.getText());
+            }
+        });
+
+        confirmPasswordField.focusedProperty().addListener((observable, oldValue, focused) -> {
+            passwordMatchLabel.setVisible(focused);
+            passwordMatchLabel.setManaged(focused);
+            if (focused) {
+                updatePasswordMatch();
+            }
+        });
+    }
+
     public void setCustomer(Customer customer) {
         this.customer = customer;
 
         nameField.setText(customer.getName());
         emailField.setText(customer.getEmail());
+        passwordField.clear();
+        confirmPasswordField.clear();
 
         Address address = customer.getAddress();
 
@@ -65,6 +110,7 @@ public class EditProfileController {
         String name = nameField.getText().trim();
         String email = emailField.getText().trim();
         String newPassword = passwordField.getText();
+        String confirmation = confirmPasswordField.getText();
         String street = streetField.getText().trim();
         String city = cityField.getText().trim();
         String state = stateField.getText().trim();
@@ -73,6 +119,14 @@ public class EditProfileController {
         if (name.isBlank() || email.isBlank()) {
 
             messageLabel.setText("Please complete every required field.");
+            return;
+        }
+
+        if (!newPassword.isBlank()
+                && (!isValidPassword(newPassword) || !newPassword.equals(confirmation))) {
+            messageLabel.setText(!isValidPassword(newPassword)
+                    ? "New password does not meet the requirements above."
+                    : "Passwords do not match.");
             return;
         }
 
@@ -104,46 +158,57 @@ public class EditProfileController {
             return;
         }
 
-        try {
-            openProfile(event);
-        } catch (IOException exception) {
-            exception.printStackTrace();
-            messageLabel.setText("Could not return to profile.");
-        }
+        closeEditor(event);
     }
 
     private String emptyToNull(String value) {
         return value.isBlank() ? null : value;
     }
 
-    @FXML
-    private void handleCancel(ActionEvent event) {
-        try {
-            openProfile(event);
-        } catch (IOException exception) {
-            exception.printStackTrace();
-            messageLabel.setText("Could not return to profile.");
+    private boolean isValidPassword(String password) {
+        return password.length() >= 8
+                && password.matches(".*[A-Z].*")
+                && password.matches(".*[a-z].*")
+                && password.matches(".*\\d.*");
+    }
+
+    private void updatePasswordRequirements(String password) {
+        setRequirement(numberRequirementLabel, password.matches(".*\\d.*"), "Have One number");
+        setRequirement(uppercaseRequirementLabel, password.matches(".*[A-Z].*"),
+                "Have One uppercase character");
+        setRequirement(lowercaseRequirementLabel, password.matches(".*[a-z].*"),
+                "Have One lowercase character");
+        setRequirement(lengthRequirementLabel, password.length() >= 8, "Have 8 characters minimum");
+    }
+
+    private void setRequirement(Label label, boolean met, String requirement) {
+        label.setText((met ? "✓ " : "• ") + requirement);
+        label.setStyle("-fx-text-fill: " + (met ? "green" : "#b00020") + ";");
+    }
+
+    private void updatePasswordMatch() {
+        String password = passwordField.getText();
+        String confirmation = confirmPasswordField.getText();
+
+        if (confirmation.isEmpty() || password.isEmpty()) {
+            passwordMatchLabel.setText("Must match password");
+            passwordMatchLabel.setStyle("-fx-text-fill: #b00020;");
+        } else if (password.equals(confirmation)) {
+            passwordMatchLabel.setText("✓ Passwords match");
+            passwordMatchLabel.setStyle("-fx-text-fill: green;");
+        } else {
+            passwordMatchLabel.setText("Must match password");
+            passwordMatchLabel.setStyle("-fx-text-fill: #b00020;");
         }
     }
 
-    private void openProfile(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(
-                Launcher.class.getResource(
-                        "/com/customerportal/view/profile-view.fxml"
-                )
-        );
+    @FXML
+    private void handleCancel(ActionEvent event) {
+        closeEditor(event);
+    }
 
-        Scene scene = new Scene(loader.load(), 500, 500);
-
-        ProfileController controller = loader.getController();
-        controller.setCustomer(customer);
-
-        Stage stage = (Stage) ((Node) event.getSource())
-                .getScene()
-                .getWindow();
-
-        stage.setScene(scene);
-        stage.setTitle("Customer Profile");
-        stage.show();
+    private void closeEditor(ActionEvent event) {
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.close();
     }
 }

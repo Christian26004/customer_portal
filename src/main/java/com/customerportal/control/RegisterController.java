@@ -14,6 +14,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -48,8 +49,49 @@ public class RegisterController {
     private Label messageLabel;
 
     @FXML
+    private VBox passwordRequirementsBox;
+
+    @FXML
+    private Label numberRequirementLabel;
+
+    @FXML
+    private Label uppercaseRequirementLabel;
+
+    @FXML
+    private Label lowercaseRequirementLabel;
+
+    @FXML
+    private Label lengthRequirementLabel;
+
+    @FXML
+    private Label passwordMatchLabel;
+
+    @FXML
     public void initialize() {
         stateBox.setItems(getStateList());
+
+        passwordField.textProperty().addListener((observable, oldValue, newValue) -> {
+            updatePasswordRequirements(newValue);
+            updatePasswordMatch();
+        });
+        confirmPasswordField.textProperty().addListener((observable, oldValue, newValue) ->
+                updatePasswordMatch());
+
+        passwordField.focusedProperty().addListener((observable, oldValue, focused) -> {
+            passwordRequirementsBox.setVisible(focused);
+            passwordRequirementsBox.setManaged(focused);
+            if (focused) {
+                updatePasswordRequirements(passwordField.getText());
+            }
+        });
+
+        confirmPasswordField.focusedProperty().addListener((observable, oldValue, focused) -> {
+            passwordMatchLabel.setVisible(focused);
+            passwordMatchLabel.setManaged(focused);
+            if (focused) {
+                updatePasswordMatch();
+            }
+        });
     }
 
     @FXML
@@ -69,6 +111,11 @@ public class RegisterController {
                 || confirmation.isBlank()) {
 
             messageLabel.setText("Name, email, password, and confirmation are required.");
+            return;
+        }
+
+        if (!isValidPassword(password)) {
+            messageLabel.setText("Password does not meet the requirements above.");
             return;
         }
 
@@ -111,6 +158,43 @@ public class RegisterController {
         return value.isBlank() ? null : value;
     }
 
+    private boolean isValidPassword(String password) {
+        return password.length() >= 8
+                && password.matches(".*[A-Z].*")
+                && password.matches(".*[a-z].*")
+                && password.matches(".*\\d.*");
+    }
+
+    private void updatePasswordRequirements(String password) {
+        setRequirement(numberRequirementLabel, password.matches(".*\\d.*"), "Have One number");
+        setRequirement(uppercaseRequirementLabel, password.matches(".*[A-Z].*"),
+                "Have One uppercase character");
+        setRequirement(lowercaseRequirementLabel, password.matches(".*[a-z].*"),
+                "Have One lowercase character");
+        setRequirement(lengthRequirementLabel, password.length() >= 8, "Have 8 characters minimum");
+    }
+
+    private void setRequirement(Label label, boolean met, String requirement) {
+        label.setText((met ? "✓ " : "• ") + requirement);
+        label.setStyle("-fx-text-fill: " + (met ? "green" : "#b00020") + ";");
+    }
+
+    private void updatePasswordMatch() {
+        String password = passwordField.getText();
+        String confirmation = confirmPasswordField.getText();
+
+        if (confirmation.isEmpty()) {
+            passwordMatchLabel.setText("Must match password");
+            passwordMatchLabel.setStyle("-fx-text-fill: #b00020;");
+        } else if (password.equals(confirmation)) {
+            passwordMatchLabel.setText("✓ Passwords match");
+            passwordMatchLabel.setStyle("-fx-text-fill: green;");
+        } else {
+            passwordMatchLabel.setText("Must match password");
+            passwordMatchLabel.setStyle("-fx-text-fill: #b00020;");
+        }
+    }
+
     @FXML
     private void handleBackToLogin(ActionEvent event) throws IOException {
 
@@ -120,12 +204,10 @@ public class RegisterController {
                 )
         );
 
-        Scene scene = new Scene(loader.load(), 550, 400);
+        Scene scene = Launcher.createScene(loader);
 
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setScene(scene);
-        stage.setTitle("Customer Portal Login");
-        stage.show();
+        Launcher.showScene(stage, scene, "Customer Portal Login");
     }
 
     private ObservableList<String> getStateList() {

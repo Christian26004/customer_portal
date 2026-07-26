@@ -1,6 +1,7 @@
 package com.customerportal.control;
 
 import com.customerportal.Launcher;
+import com.customerportal.model.Address;
 import com.customerportal.model.CartItem;
 import com.customerportal.model.Customer;
 import com.customerportal.model.DeliveryOption;
@@ -157,6 +158,11 @@ public class CartController {
             return;
         }
 
+        if (!hasCompleteAddress()) {
+            messageLabel.setText("Please add a complete address to your profile before placing an order.");
+            return;
+        }
+
         DeliveryOption deliveryOption = deliveryComboBox.getValue();
         String discountCode = discountCodeField.getText();
 
@@ -175,21 +181,36 @@ public class CartController {
                 + String.format("$%.2f", order.getTotal()));
     }
 
+    private boolean hasCompleteAddress() {
+        if (customer == null) {
+            return false;
+        }
+
+        Address address = customer.getAddress();
+        return address != null
+                && isNotBlank(address.getStreet())
+                && isNotBlank(address.getCity())
+                && isNotBlank(address.getState())
+                && isNotBlank(address.getZipCode());
+    }
+
+    private boolean isNotBlank(String value) {
+        return value != null && !value.isBlank();
+    }
+
     @FXML
     private void handleBackToProfile(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(
                 Launcher.class.getResource("/com/customerportal/view/profile-view.fxml")
         );
 
-        Scene scene = new Scene(loader.load(), 500, 500);
+        Scene scene = Launcher.createScene(loader);
 
         ProfileController controller = loader.getController();
         controller.setCustomer(customer);
 
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setScene(scene);
-        stage.setTitle("Customer Profile");
-        stage.show();
+        Launcher.showScene(stage, scene, "Customer Profile");
     }
 
     private void refreshCartTable() {

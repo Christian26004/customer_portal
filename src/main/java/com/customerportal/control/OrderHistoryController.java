@@ -70,7 +70,7 @@ public class OrderHistoryController {
                     )
             );
 
-            Scene scene = new Scene(loader.load(), 500, 500);
+            Scene scene = Launcher.createScene(loader);
 
             ProfileController controller = loader.getController();
             controller.setCustomer(customer);
@@ -79,9 +79,7 @@ public class OrderHistoryController {
                     .getScene()
                     .getWindow();
 
-            stage.setScene(scene);
-            stage.setTitle("Customer Profile");
-            stage.show();
+            Launcher.showScene(stage, scene, "Customer Profile");
 
         } catch (IOException exception) {
             exception.printStackTrace();

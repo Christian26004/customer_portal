@@ -19,7 +19,24 @@
 
     <PasswordField fx:id="passwordField" maxWidth="300.0" promptText="Password *" />
 
+    <VBox fx:id="passwordRequirementsBox"
+          maxWidth="300.0"
+          spacing="2.0"
+          visible="false"
+          managed="false">
+        <Label fx:id="numberRequirementLabel" />
+        <Label fx:id="uppercaseRequirementLabel" />
+        <Label fx:id="lowercaseRequirementLabel" />
+        <Label fx:id="lengthRequirementLabel" />
+    </VBox>
+
     <PasswordField fx:id="confirmPasswordField" maxWidth="300.0" promptText="Confirm Password *" />
+
+    <Label fx:id="passwordMatchLabel"
+           maxWidth="300.0"
+           wrapText="true"
+           visible="false"
+           managed="false" />
    <Label layoutX="147.0" layoutY="73.0" text="Address Information" />
 
     <TextField fx:id="streetField" maxWidth="300.0" promptText="Street" />

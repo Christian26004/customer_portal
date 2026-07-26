@@ -10,6 +10,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
+import javafx.stage.Modality;
 
 import java.io.IOException;
 
@@ -68,18 +69,25 @@ public class ProfileController {
                     )
             );
 
-            Scene scene = new Scene(loader.load(), 550, 650);
+            Scene scene = new Scene(loader.load(), 520, 760);
 
             EditProfileController controller = loader.getController();
             controller.setCustomer(customer);
 
-            Stage stage = (Stage) ((Node) event.getSource())
+            Stage parentStage = (Stage) ((Node) event.getSource())
                     .getScene()
                     .getWindow();
 
-            stage.setScene(scene);
-            stage.setTitle("Edit Customer Profile");
-            stage.show();
+            Stage editStage = new Stage();
+            editStage.initOwner(parentStage);
+            editStage.initModality(Modality.WINDOW_MODAL);
+            editStage.setTitle("Edit Customer Profile");
+            editStage.setScene(scene);
+            editStage.setResizable(false);
+            editStage.showAndWait();
+
+            // The editor updates the same Customer object before closing.
+            setCustomer(customer);
 
         } catch (IOException exception) {
             exception.printStackTrace();
@@ -96,7 +104,7 @@ private void handleOrderHistory(ActionEvent event) {
                 )
         );
 
-        Scene scene = new Scene(loader.load(), 600, 500);
+        Scene scene = Launcher.createScene(loader);
 
         OrderHistoryController controller = loader.getController();
         controller.setCustomer(customer);
@@ -105,9 +113,7 @@ private void handleOrderHistory(ActionEvent event) {
                 .getScene()
                 .getWindow();
 
-        stage.setScene(scene);
-        stage.setTitle("Order History");
-        stage.show();
+        Launcher.showScene(stage, scene, "Order History");
 
     } catch (IOException exception) {
         exception.printStackTrace();
@@ -124,15 +130,13 @@ private void handleOrderHistory(ActionEvent event) {
                 )
         );
 
-        Scene scene = new Scene(loader.load(), 500, 400);
+        Scene scene = Launcher.createScene(loader);
 
         Stage stage = (Stage) ((Node) event.getSource())
                 .getScene()
                 .getWindow();
 
-        stage.setScene(scene);
-        stage.setTitle("Customer Portal Login");
-        stage.show();
+        Launcher.showScene(stage, scene, "Customer Portal Login");
     }
 
     @FXML
@@ -144,7 +148,7 @@ private void handleOpenCart(ActionEvent event) {
                 )
         );
 
-        Scene scene = new Scene(loader.load(), 800, 650);
+        Scene scene = Launcher.createScene(loader);
 
         CartController controller = loader.getController();
         controller.setCustomer(customer);
@@ -153,9 +157,7 @@ private void handleOpenCart(ActionEvent event) {
                 .getScene()
                 .getWindow();
 
-        stage.setScene(scene);
-        stage.setTitle("Shopping Cart");
-        stage.show();
+        Launcher.showScene(stage, scene, "Shopping Cart");
 
     } catch (IOException exception) {
         exception.printStackTrace();
