@@ -113,10 +113,12 @@ public class ProductController {
         HBox.setHgrow(bottomSpacer, Priority.ALWAYS);
 
         VBox card = new VBox(8, nameLabel, descriptionLabel, spacer, bottomRow);
-        card.setPrefWidth(230);
-        card.setMinHeight(190);
-        card.setPrefHeight(190);
-        card.setMaxHeight(190);
+        card.setMinWidth(200);
+        card.setPrefWidth(200);
+        card.setMaxWidth(200);
+        card.setMinHeight(200);
+        card.setPrefHeight(200);
+        card.setMaxHeight(200);
         card.setStyle("-fx-border-color: #d0d0d0; -fx-border-radius: 6; "
                 + "-fx-background-radius: 6; -fx-padding: 14; -fx-background-color: white;");
         return card;

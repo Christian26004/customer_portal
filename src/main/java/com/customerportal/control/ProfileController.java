@@ -144,7 +144,7 @@ private void handleOpenCart(ActionEvent event) {
     try {
         FXMLLoader loader = new FXMLLoader(
                 Launcher.class.getResource(
-                        "/com/customerportal/view/product-page.fxml"
+                        "/com/customerportal/view/product-view.fxml"
                 )
         );
 

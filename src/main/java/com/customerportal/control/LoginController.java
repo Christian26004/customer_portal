@@ -47,7 +47,7 @@ public class LoginController {
 
             FXMLLoader loader = new FXMLLoader(
                     Launcher.class.getResource(
-                            "/com/customerportal/view/product-page.fxml")
+                            "/com/customerportal/view/product-view.fxml")
             );
 
             Scene scene = Launcher.createScene(loader);

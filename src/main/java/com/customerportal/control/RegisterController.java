@@ -182,7 +182,7 @@ public class RegisterController {
 
     private void openProducts(ActionEvent event, Customer customer) throws IOException {
         FXMLLoader loader = new FXMLLoader(
-                Launcher.class.getResource("/com/customerportal/view/product-page.fxml"));
+                Launcher.class.getResource("/com/customerportal/view/product-view.fxml"));
         Scene scene = Launcher.createScene(loader);
 
         ProductController controller = loader.getController();
