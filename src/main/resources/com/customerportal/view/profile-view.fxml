@@ -43,12 +43,18 @@
             onAction="#handleEditProfile"
             maxWidth="300.0"/>
 
+   <Button text="Shop Products"
+            onAction="#handleOpenCart"
+            maxWidth="300.0"/>
+
     <Button text="Order History"
             onAction="#handleOrderHistory"
-            maxWidth="Infinity"/>
+            maxWidth="300.0"/>
 
     <Button text="Log Out"
             onAction="#handleLogout"
             maxWidth="300.0"/>
+
+
 
 </VBox>

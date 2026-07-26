@@ -134,4 +134,32 @@ private void handleOrderHistory(ActionEvent event) {
         stage.setTitle("Customer Portal Login");
         stage.show();
     }
+
+    @FXML
+private void handleOpenCart(ActionEvent event) {
+    try {
+        FXMLLoader loader = new FXMLLoader(
+                Launcher.class.getResource(
+                        "/com/customerportal/view/cart-view.fxml"
+                )
+        );
+
+        Scene scene = new Scene(loader.load(), 800, 650);
+
+        CartController controller = loader.getController();
+        controller.setCustomer(customer);
+
+        Stage stage = (Stage) ((Node) event.getSource())
+                .getScene()
+                .getWindow();
+
+        stage.setScene(scene);
+        stage.setTitle("Shopping Cart");
+        stage.show();
+
+    } catch (IOException exception) {
+        exception.printStackTrace();
+        messageLabel.setText("Could not open shopping cart.");
+    }
+}
 }
