@@ -10,10 +10,9 @@ and integrated checkout options.
 
 ### Feature List
 
-- [ ] Allow user to type in address information and return it 
+- [x] Allow user to type in address information and return it 
 to console
-- [ ] Set qualifications for password information
+- [x] Set qualifications for password information
 - [x] Make state option a drop-down menu for American states
 - [x] Separate account creation from address information
 - [x] Make SQLite Database
-- []
