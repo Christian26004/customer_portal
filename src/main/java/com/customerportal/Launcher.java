@@ -15,7 +15,6 @@ public class Launcher extends Application {
 
     @Override
     public void init() throws Exception {
-        // Runs database setup and creates tables BEFORE the GUI window opens
         Database.initializeDatabase();
     }
 
@@ -28,17 +27,10 @@ public class Launcher extends Application {
         showScene(stage, scene, "Customer Portal Login");
     }
 
-    /**
-     * Creates every application scene with the same default dimensions.
-     */
     public static Scene createScene(FXMLLoader loader) throws IOException {
         return new Scene(loader.load(), WINDOW_WIDTH, WINDOW_HEIGHT);
     }
 
-    /**
-     * Reuses the same stage while navigating and restores the standard size
-     * when the window is not maximized.
-     */
     public static void showScene(Stage stage, Scene scene, String title) {
         boolean maximized = stage.isMaximized();
 

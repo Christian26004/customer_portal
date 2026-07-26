@@ -126,21 +126,6 @@ public final class Database {
             Connection connection
     ) throws SQLException {
 
-        String countSql =
-                "SELECT COUNT(*) AS total FROM products";
-
-        try (
-                Statement statement =
-                        connection.createStatement();
-                ResultSet results =
-                        statement.executeQuery(countSql)
-        ) {
-            if (results.next()
-                    && results.getInt("total") > 0) {
-                return;
-            }
-        }
-
         String insertSql = """
                 INSERT INTO products (
                     name,
@@ -149,7 +134,10 @@ public final class Database {
                     image_url,
                     stock_quantity
                 )
-                VALUES (?, ?, ?, ?, ?)
+                SELECT ?, ?, ?, ?, ?
+                WHERE NOT EXISTS (
+                    SELECT 1 FROM products WHERE name = ?
+                )
                 """;
 
         Object[][] sampleProducts = {
@@ -208,6 +196,62 @@ public final class Database {
                         8.49,
                         "",
                         65
+                },
+                {
+                        "Cheddar Cheese (8 oz)",
+                        "Sharp cheddar cheese block.",
+                        3.99,
+                        "",
+                        70
+                },
+                {
+                        "Orange Juice (52 oz)",
+                        "Fresh-tasting 100% orange juice.",
+                        4.29,
+                        "",
+                        85
+                },
+                {
+                        "Pasta (16 oz)",
+                        "Classic durum wheat pasta.",
+                        1.89,
+                        "",
+                        140
+                },
+                {
+                        "Tomato Sauce (24 oz)",
+                        "Rich tomato basil pasta sauce.",
+                        2.49,
+                        "",
+                        110
+                },
+                {
+                        "Peanut Butter (16 oz)",
+                        "Smooth roasted peanut butter.",
+                        3.49,
+                        "",
+                        95
+                },
+                {
+                        "Granola Bars (6 count)",
+                        "Oat and honey snack bars.",
+                        3.79,
+                        "",
+                        75
+                },
+                {
+                        "Frozen Mixed Vegetables (12 oz)",
+                        "A convenient blend of frozen vegetables.",
+                        2.99,
+                        "",
+                        90
+                },
+                {
+                        "Bottled Water (24 pack)",
+                        "Purified drinking water.",
+                        5.99,
+                        "",
+                        100
                 }
         };
 
@@ -235,6 +279,7 @@ public final class Database {
                         5,
                         (Integer) product[4]
                 );
+                statement.setString(6, (String) product[0]);
 
                 statement.addBatch();
             }

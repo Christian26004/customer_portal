@@ -7,11 +7,8 @@ import com.customerportal.model.Customer;
 import com.customerportal.model.DeliveryOption;
 import com.customerportal.model.Order;
 import com.customerportal.model.OrderManager;
-import com.customerportal.model.Product;
-import com.customerportal.model.ProductManager;
 import com.customerportal.model.ShoppingCart;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -20,8 +17,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.Spinner;
-import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -34,12 +29,6 @@ import java.io.IOException;
 public class CartController {
 
     private static final double TAX_RATE = 0.0825;
-
-    @FXML
-    private ComboBox<Product> productComboBox;
-
-    @FXML
-    private Spinner<Integer> addQuantitySpinner;
 
     @FXML
     private TableView<CartItem> cartTable;
@@ -83,19 +72,20 @@ public class CartController {
     @FXML
     private Label messageLabel;
 
-    private final ShoppingCart cart = new ShoppingCart();
+    private ShoppingCart cart;
     private Customer customer;
     private double appliedDiscountPercentage = 0.0;
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
+        this.cart = customer.getShoppingCart();
+        if (cartTable != null) {
+            refreshCartTable();
+        }
     }
 
     @FXML
     private void initialize() {
-        productComboBox.setItems(FXCollections.observableArrayList(ProductManager.getAllProducts()));
-        addQuantitySpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 99, 1));
-
         deliveryComboBox.setItems(FXCollections.observableArrayList(DeliveryOption.values()));
         deliveryComboBox.getSelectionModel().selectFirst();
         deliveryComboBox.valueProperty().addListener((obs, oldVal, newVal) -> recalculateTotals());
@@ -116,23 +106,6 @@ public class CartController {
 
         cartTable.setItems(FXCollections.observableArrayList());
 
-        refreshCartTable();
-    }
-
-    @FXML
-    private void handleAddToCart(ActionEvent event) {
-        Product selected = productComboBox.getValue();
-
-        if (selected == null) {
-            messageLabel.setText("Please choose a product to add.");
-            return;
-        }
-
-        int quantity = addQuantitySpinner.getValue();
-        cart.addItem(selected, quantity);
-
-        messageLabel.setText("");
-        refreshCartTable();
     }
 
     @FXML
@@ -199,26 +172,32 @@ public class CartController {
     }
 
     @FXML
-    private void handleBackToProfile(ActionEvent event) throws IOException {
+    private void handleBackToProducts(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(
-                Launcher.class.getResource("/com/customerportal/view/profile-view.fxml")
+                Launcher.class.getResource("/com/customerportal/view/product-page.fxml")
         );
 
         Scene scene = Launcher.createScene(loader);
 
-        ProfileController controller = loader.getController();
+        ProductController controller = loader.getController();
         controller.setCustomer(customer);
 
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        Launcher.showScene(stage, scene, "Customer Profile");
+        Launcher.showScene(stage, scene, "Products");
     }
 
     private void refreshCartTable() {
+        if (cart == null) {
+            return;
+        }
         cartTable.getItems().setAll(cart.getItems());
         recalculateTotals();
     }
 
     private void recalculateTotals() {
+        if (cart == null) {
+            return;
+        }
         double subtotal = cart.getSubtotal();
         double discountAmount = subtotal * appliedDiscountPercentage;
         double taxableAmount = subtotal - discountAmount;
@@ -236,10 +215,7 @@ public class CartController {
         totalLabel.setText(String.format("$%.2f", total));
     }
 
-    /**
-     * Renders a quantity cell with -/+ buttons so the customer can adjust
-     * how many of an item they want directly from the cart table.
-     */
+    /** Allows quantity changes for items already in the cart. */
     private class QuantityCell extends TableCell<CartItem, Integer> {
 
         private final Button decreaseButton = new Button("-");
@@ -248,13 +224,13 @@ public class CartController {
         private final HBox container = new HBox(6, decreaseButton, quantityLabel, increaseButton);
 
         QuantityCell() {
-            decreaseButton.setOnAction(e -> adjustQuantity(-1));
-            increaseButton.setOnAction(e -> adjustQuantity(1));
+            decreaseButton.setOnAction(event -> updateQuantity(-1));
+            increaseButton.setOnAction(event -> updateQuantity(1));
         }
 
-        private void adjustQuantity(int delta) {
+        private void updateQuantity(int change) {
             CartItem item = getTableView().getItems().get(getIndex());
-            cart.updateQuantity(item.getProduct().getProductId(), item.getQuantity() + delta);
+            cart.updateQuantity(item.getProduct().getProductId(), item.getQuantity() + change);
             refreshCartTable();
         }
 
@@ -269,6 +245,7 @@ public class CartController {
 
             CartItem item = getTableView().getItems().get(getIndex());
             quantityLabel.setText(String.valueOf(item.getQuantity()));
+            decreaseButton.setDisable(item.getQuantity() <= 1);
             setGraphic(container);
         }
     }

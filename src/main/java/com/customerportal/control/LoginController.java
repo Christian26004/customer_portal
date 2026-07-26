@@ -47,16 +47,16 @@ public class LoginController {
 
             FXMLLoader loader = new FXMLLoader(
                     Launcher.class.getResource(
-                            "/com/customerportal/view/profile-view.fxml")
+                            "/com/customerportal/view/product-page.fxml")
             );
 
             Scene scene = Launcher.createScene(loader);
 
-            ProfileController controller = loader.getController();
+            ProductController controller = loader.getController();
             controller.setCustomer(customer);
 
             Stage stage = (Stage) emailField.getScene().getWindow();
-            Launcher.showScene(stage, scene, "Customer Profile");
+            Launcher.showScene(stage, scene, "Products");
 
         } catch (IOException e) {
             e.printStackTrace();

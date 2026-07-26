@@ -51,6 +51,7 @@ public class Customer {
     }
 
     private Address address;
+    private final ShoppingCart shoppingCart = new ShoppingCart();
 
     public Address getAddress() {
         return address;
@@ -58,6 +59,10 @@ public class Customer {
 
     public void setAddress(Address address) {
         this.address = address;
+    }
+
+    public ShoppingCart getShoppingCart() {
+        return shoppingCart;
     }
     
 }

@@ -2,6 +2,7 @@ package com.customerportal.control;
 
 import com.customerportal.Launcher;
 import com.customerportal.model.Address;
+import com.customerportal.model.Customer;
 import com.customerportal.model.CustomerManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -138,13 +139,13 @@ public class RegisterController {
             return;
         }
 
-        messageLabel.setText("Account created successfully. Return to login.");
-
-        System.out.println("Registered: " + email);
-        System.out.println("Customers stored: " + CustomerManager.getCustomers().size());
-        if (address != null) {
-            System.out.println("Address: " + address.getStreet());
+        Customer customer = CustomerManager.loginCustomer(email, password);
+        if (customer == null) {
+            messageLabel.setText("Account created. Please return to login.");
+            return;
         }
+
+        openProducts(event, customer);
     }
 
     private Address createOptionalAddress(String street, String city, String state, String zipCode) {
@@ -177,6 +178,18 @@ public class RegisterController {
     private void setRequirement(Label label, boolean met, String requirement) {
         label.setText((met ? "✓ " : "• ") + requirement);
         label.setStyle("-fx-text-fill: " + (met ? "green" : "#b00020") + ";");
+    }
+
+    private void openProducts(ActionEvent event, Customer customer) throws IOException {
+        FXMLLoader loader = new FXMLLoader(
+                Launcher.class.getResource("/com/customerportal/view/product-page.fxml"));
+        Scene scene = Launcher.createScene(loader);
+
+        ProductController controller = loader.getController();
+        controller.setCustomer(customer);
+
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Launcher.showScene(stage, scene, "Products");
     }
 
     private void updatePasswordMatch() {

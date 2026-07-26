@@ -144,20 +144,20 @@ private void handleOpenCart(ActionEvent event) {
     try {
         FXMLLoader loader = new FXMLLoader(
                 Launcher.class.getResource(
-                        "/com/customerportal/view/cart-view.fxml"
+                        "/com/customerportal/view/product-page.fxml"
                 )
         );
 
         Scene scene = Launcher.createScene(loader);
 
-        CartController controller = loader.getController();
+        ProductController controller = loader.getController();
         controller.setCustomer(customer);
 
         Stage stage = (Stage) ((Node) event.getSource())
                 .getScene()
                 .getWindow();
 
-        Launcher.showScene(stage, scene, "Shopping Cart");
+        Launcher.showScene(stage, scene, "Products");
 
     } catch (IOException exception) {
         exception.printStackTrace();

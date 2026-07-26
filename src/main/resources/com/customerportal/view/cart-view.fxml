@@ -14,12 +14,7 @@
 
             <Label style="-fx-font-size: 22px; -fx-font-weight: bold;" text="Shopping Cart" />
 
-            <HBox alignment="CENTER_LEFT" spacing="10.0">
-                <Label text="Add product:" />
-                <ComboBox fx:id="productComboBox" prefWidth="240.0" />
-                <Spinner fx:id="addQuantitySpinner" prefWidth="80.0" />
-                <Button onAction="#handleAddToCart" text="Add to Cart" />
-            </HBox>
+            <Label text="Review your items, apply discounts, and complete your order." />
         </VBox>
     </top>
 
@@ -78,7 +73,7 @@
             <Label fx:id="messageLabel" wrapText="true" />
 
             <HBox spacing="10.0">
-                <Button maxWidth="1.7976931348623157E308" onAction="#handleBackToProfile" text="Back to Profile" HBox.hgrow="ALWAYS" />
+                <Button maxWidth="1.7976931348623157E308" onAction="#handleBackToProducts" text="Back to Products" HBox.hgrow="ALWAYS" />
                 <Button maxWidth="1.7976931348623157E308" onAction="#handlePlaceOrder" text="Place Order" HBox.hgrow="ALWAYS" />
             </HBox>
         </VBox>
